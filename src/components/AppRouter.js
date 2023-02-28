@@ -1,5 +1,10 @@
 import React from "react";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import {
+	HashRouter as Router,
+	Route,
+	Routes,
+	Navigate,
+} from "react-router-dom";
 import Navigation from "./Navigation";
 import Home from "../routes/Home";
 import Auth from "../routes/Auth";
@@ -14,9 +19,13 @@ function AppRouter({ isLoggedIn }) {
 					<>
 						<Route path="/" element={<Home />} />
 						<Route path="/profile" element={<Profile />} />
+						<Route path="*" element={<Navigate to="/" />} />
 					</>
 				) : (
-					<Route path="/" element={<Auth />} />
+					<>
+						<Route path="/" element={<Auth />} />
+						<Route path="*" element={<Navigate to="/" />} />
+					</>
 				)}
 			</Routes>
 		</Router>
