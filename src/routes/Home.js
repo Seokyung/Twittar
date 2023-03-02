@@ -36,8 +36,8 @@ function Home({ userObj }) {
 				creatorId: userObj.uid,
 			});
 		} catch (error) {
-			alert(error);
-			console.log("Error adding document");
+			alert(error.message);
+			console.log(error);
 		}
 		setTwitt("");
 	};

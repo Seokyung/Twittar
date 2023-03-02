@@ -12,7 +12,6 @@ function Auth() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [newAccount, setNewAccount] = useState(true);
-	const [error, setError] = useState("");
 
 	const onChange = (e) => {
 		const {
@@ -37,9 +36,9 @@ function Auth() {
 				//log in
 				data = await signInWithEmailAndPassword(auth, email, password);
 			}
-			console.log("Email account: " + data);
 		} catch (error) {
-			setError(error.message);
+			alert(error.message);
+			console.log(error);
 		}
 	};
 
@@ -59,7 +58,6 @@ function Auth() {
 			provider = new GithubAuthProvider();
 		}
 		const data = await signInWithPopup(auth, provider);
-		console.log("Social account: " + data);
 	};
 
 	return (
@@ -85,7 +83,6 @@ function Auth() {
 					type="submit"
 					value={newAccount ? "Create New Account" : "Log In"}
 				/>
-				{error}
 			</form>
 			<button onClick={toggleAccount}>
 				{newAccount ? "Log In" : "Create New Account"}
