@@ -29,7 +29,7 @@ function Home({ userObj }) {
 		twittFocus.current.focus();
 	}, []);
 
-	const onSubmit = async (e) => {
+	const onTwittClick = async (e) => {
 		e.preventDefault();
 		try {
 			await addDoc(collection(dbService, "twitts"), {
@@ -45,7 +45,7 @@ function Home({ userObj }) {
 		twittFocus.current.focus();
 	};
 
-	const onChange = (e) => {
+	const onTwittChange = (e) => {
 		const {
 			target: { value },
 		} = e;
@@ -54,11 +54,11 @@ function Home({ userObj }) {
 
 	return (
 		<div>
-			<form onSubmit={onSubmit}>
+			<form onSubmit={onTwittClick}>
 				<input
 					ref={twittFocus}
 					value={twitt}
-					onChange={onChange}
+					onChange={onTwittChange}
 					type="text"
 					placeholder="What's on your mind?"
 					maxLength={200}

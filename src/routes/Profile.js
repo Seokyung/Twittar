@@ -7,7 +7,11 @@ function Profile() {
 	const navigate = useNavigate();
 
 	const onLogoutClick = () => {
-		signOut(auth);
+		signOut(auth)
+			.then()
+			.catch((error) => {
+				alert(error.message);
+			});
 		navigate("/", { replace: true });
 	};
 

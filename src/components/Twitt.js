@@ -43,18 +43,22 @@ function Twitt({ twittObj, isOwner }) {
 		<div>
 			{isEdit ? (
 				<>
-					<form onSubmit={onEditClick}>
-						<input
-							type="text"
-							placeholder="Edit your twitt!"
-							onChange={onEditChange}
-							ref={editFocus}
-							value={newTwitt}
-							required
-						/>
-						<input type="submit" value="Update twitt" />
-					</form>
-					<button onClick={toggleEdit}>Cancel</button>
+					{isOwner && (
+						<>
+							<form onSubmit={onEditClick}>
+								<input
+									type="text"
+									placeholder="Edit your twitt!"
+									onChange={onEditChange}
+									ref={editFocus}
+									value={newTwitt}
+									required
+								/>
+								<input type="submit" value="Update twitt" />
+							</form>
+							<button onClick={toggleEdit}>Cancel</button>
+						</>
+					)}
 				</>
 			) : (
 				<>

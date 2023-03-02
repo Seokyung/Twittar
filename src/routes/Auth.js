@@ -11,9 +11,9 @@ import {
 function Auth() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [newAccount, setNewAccount] = useState(true);
+	const [newAccount, setNewAccount] = useState(false);
 
-	const onChange = (e) => {
+	const onEmailOrPasswordChange = (e) => {
 		const {
 			target: { name, value },
 		} = e;
@@ -24,16 +24,14 @@ function Auth() {
 		}
 	};
 
-	const onSubmit = async (e) => {
+	const onLoginOrSignInClick = async (e) => {
 		e.preventDefault();
 		const auth = getAuth();
 		let data;
 		try {
 			if (newAccount) {
-				//create new account
 				data = await createUserWithEmailAndPassword(auth, email, password);
 			} else {
-				//log in
 				data = await signInWithEmailAndPassword(auth, email, password);
 			}
 		} catch (error) {
@@ -62,14 +60,14 @@ function Auth() {
 
 	return (
 		<div>
-			<form onSubmit={onSubmit}>
+			<form onSubmit={onLoginOrSignInClick}>
 				<input
 					name="email"
 					type="email"
 					placeholder="Email"
 					required
 					value={email}
-					onChange={onChange}
+					onChange={onEmailOrPasswordChange}
 				/>
 				<input
 					name="password"
@@ -77,7 +75,7 @@ function Auth() {
 					placeholder="Password"
 					required
 					value={password}
-					onChange={onChange}
+					onChange={onEmailOrPasswordChange}
 				/>
 				<input
 					type="submit"
