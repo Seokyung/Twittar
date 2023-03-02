@@ -27,12 +27,11 @@ function Auth() {
 	const onLoginOrSignInClick = async (e) => {
 		e.preventDefault();
 		const auth = getAuth();
-		let data;
 		try {
 			if (newAccount) {
-				data = await createUserWithEmailAndPassword(auth, email, password);
+				await createUserWithEmailAndPassword(auth, email, password);
 			} else {
-				data = await signInWithEmailAndPassword(auth, email, password);
+				await signInWithEmailAndPassword(auth, email, password);
 			}
 		} catch (error) {
 			alert(error.message);
@@ -55,7 +54,7 @@ function Auth() {
 		} else if (name === "github") {
 			provider = new GithubAuthProvider();
 		}
-		const data = await signInWithPopup(auth, provider);
+		await signInWithPopup(auth, provider);
 	};
 
 	return (
