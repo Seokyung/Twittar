@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "fbase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+	collection,
+	addDoc,
+	query,
+	onSnapshot,
+	orderBy,
+} from "firebase/firestore";
 
-function Home() {
+function Home({ userObj }) {
 	const [twitt, setTwitt] = useState("");
 	const [twitts, setTwitts] = useState([]);
 
-	const getTwitts = async () => {
-		const dbTwitts = await getDocs(collection(dbService, "twitts"));
-		dbTwitts.forEach((doc) => {
-			const twittObject = {
-				...doc.data(),
-				id: doc.id,
-			};
-			setTwitts((prev) => [twittObject, ...prev]);
-		});
-	};
-
 	useEffect(() => {
-		getTwitts();
+		const q = query(
+			collection(dbService, "twitts"),
+			orderBy("createdAt", "desc")
+		);
+		onSnapshot(q, (snapshot) => {
+			const twittArray = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			setTwitts(twittArray);
+		});
 	}, []);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			await addDoc(collection(dbService, "twitts"), {
-				twitt,
+				text: twitt,
 				createdAt: Date.now(),
+				creatorId: userObj.uid,
 			});
 		} catch (error) {
 			alert(error);
@@ -55,9 +61,9 @@ function Home() {
 				<input type="submit" value="twitt" />
 			</form>
 			<div>
-				{twitts.reverse().map((twitt) => (
+				{twitts.map((twitt) => (
 					<div key={twitt.id}>
-						<h4>{twitt.twitt}</h4>
+						<h4>{twitt.text}</h4>
 					</div>
 				))}
 			</div>
