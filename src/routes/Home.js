@@ -7,6 +7,7 @@ import {
 	onSnapshot,
 	orderBy,
 } from "firebase/firestore";
+import Twitt from "components/Twitt";
 
 function Home({ userObj }) {
 	const [twitt, setTwitt] = useState("");
@@ -62,9 +63,11 @@ function Home({ userObj }) {
 			</form>
 			<div>
 				{twitts.map((twitt) => (
-					<div key={twitt.id}>
-						<h4>{twitt.text}</h4>
-					</div>
+					<Twitt
+						key={twitt.id}
+						twittObj={twitt}
+						isOwner={twitt.creatorId === userObj.uid}
+					/>
 				))}
 			</div>
 		</div>
