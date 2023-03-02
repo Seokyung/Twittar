@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { dbService } from "fbase";
 import {
 	collection,
@@ -12,6 +12,7 @@ import Twitt from "components/Twitt";
 function Home({ userObj }) {
 	const [twitt, setTwitt] = useState("");
 	const [twitts, setTwitts] = useState([]);
+	const twittFocus = useRef(null);
 
 	useEffect(() => {
 		const q = query(
@@ -25,6 +26,7 @@ function Home({ userObj }) {
 			}));
 			setTwitts(twittArray);
 		});
+		twittFocus.current.focus();
 	}, []);
 
 	const onSubmit = async (e) => {
@@ -40,6 +42,7 @@ function Home({ userObj }) {
 			console.log(error);
 		}
 		setTwitt("");
+		twittFocus.current.focus();
 	};
 
 	const onChange = (e) => {
@@ -53,6 +56,7 @@ function Home({ userObj }) {
 		<div>
 			<form onSubmit={onSubmit}>
 				<input
+					ref={twittFocus}
 					value={twitt}
 					onChange={onChange}
 					type="text"
