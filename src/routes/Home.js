@@ -8,13 +8,13 @@ import {
 	onSnapshot,
 	orderBy,
 } from "firebase/firestore";
-import { ref, uploadString } from "firebase/storage";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import Twitt from "components/Twitt";
 
 function Home({ userObj }) {
 	const [twitt, setTwitt] = useState("");
 	const [twitts, setTwitts] = useState([]);
-	const [attachment, setAttachment] = useState();
+	const [attachment, setAttachment] = useState("");
 
 	const twittFocus = useRef(null);
 	const fileInput = useRef(null);
@@ -36,20 +36,30 @@ function Home({ userObj }) {
 
 	const onTwittClick = async (e) => {
 		e.preventDefault();
-		const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
-		const response = await uploadString(fileRef, attachment, "data_url");
-		console.log(response);
-		// try {
-		// 	await addDoc(collection(dbService, "twitts"), {
-		// 		text: twitt,
-		// 		createdAt: Date.now(),
-		// 		creatorId: userObj.uid,
-		// 	});
-		// } catch (error) {
-		// 	alert(error.message);
-		// 	console.log(error);
-		// }
-		// setTwitt("");
+		let attachmentUrl = "";
+		if (attachment !== "") {
+			const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+			const response = await uploadString(
+				attachmentRef,
+				attachment,
+				"data_url"
+			);
+			attachmentUrl = await getDownloadURL(response.ref);
+		}
+		const twittObj = {
+			text: twitt,
+			createdAt: Date.now(),
+			creatorId: userObj.uid,
+			attachmentUrl,
+		};
+		try {
+			await addDoc(collection(dbService, "twitts"), twittObj);
+		} catch (error) {
+			alert(error.message);
+			console.log(error);
+		}
+		setTwitt("");
+		setAttachment("");
 		twittFocus.current.focus();
 	};
 
@@ -79,7 +89,7 @@ function Home({ userObj }) {
 
 	const onClearAttachment = () => {
 		fileInput.current.value = null;
-		setAttachment(null);
+		setAttachment("");
 	};
 
 	return (

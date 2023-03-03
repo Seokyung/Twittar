@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { dbService } from "fbase";
+import { ref, deleteObject } from "firebase/storage";
+import { dbService, storageService } from "fbase";
 
 function Twitt({ twittObj, isOwner }) {
 	const [isEdit, setIsEdit] = useState(false);
@@ -36,6 +37,10 @@ function Twitt({ twittObj, isOwner }) {
 		if (isDelete) {
 			const twittDocRef = doc(dbService, "twitts", `${twittObj.id}`);
 			await deleteDoc(twittDocRef);
+			if (twittObj.attachmentUrl !== "") {
+				const urlRef = ref(storageService, twittObj.attachmentUrl);
+				await deleteObject(urlRef);
+			}
 		}
 	};
 
@@ -63,6 +68,9 @@ function Twitt({ twittObj, isOwner }) {
 			) : (
 				<>
 					<h4>{twittObj.text}</h4>
+					{twittObj.attachmentUrl && (
+						<img src={twittObj.attachmentUrl} alt="twitt Image" width="100px" />
+					)}
 					{isOwner && (
 						<>
 							<button onClick={toggleEdit}>Edit twitt</button>
