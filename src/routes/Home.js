@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { dbService } from "fbase";
+import { v4 as uuidv4 } from "uuid";
+import { dbService, storageService } from "fbase";
 import {
 	collection,
 	addDoc,
@@ -7,6 +8,7 @@ import {
 	onSnapshot,
 	orderBy,
 } from "firebase/firestore";
+import { ref, uploadString } from "firebase/storage";
 import Twitt from "components/Twitt";
 
 function Home({ userObj }) {
@@ -15,6 +17,8 @@ function Home({ userObj }) {
 	const [attachment, setAttachment] = useState();
 
 	const twittFocus = useRef(null);
+	const fileInput = useRef(null);
+
 	useEffect(() => {
 		const q = query(
 			collection(dbService, "twitts"),
@@ -32,17 +36,20 @@ function Home({ userObj }) {
 
 	const onTwittClick = async (e) => {
 		e.preventDefault();
-		try {
-			await addDoc(collection(dbService, "twitts"), {
-				text: twitt,
-				createdAt: Date.now(),
-				creatorId: userObj.uid,
-			});
-		} catch (error) {
-			alert(error.message);
-			console.log(error);
-		}
-		setTwitt("");
+		const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+		const response = await uploadString(fileRef, attachment, "data_url");
+		console.log(response);
+		// try {
+		// 	await addDoc(collection(dbService, "twitts"), {
+		// 		text: twitt,
+		// 		createdAt: Date.now(),
+		// 		creatorId: userObj.uid,
+		// 	});
+		// } catch (error) {
+		// 	alert(error.message);
+		// 	console.log(error);
+		// }
+		// setTwitt("");
 		twittFocus.current.focus();
 	};
 
@@ -71,6 +78,7 @@ function Home({ userObj }) {
 	};
 
 	const onClearAttachment = () => {
+		fileInput.current.value = null;
 		setAttachment(null);
 	};
 
@@ -85,7 +93,12 @@ function Home({ userObj }) {
 					placeholder="What's on your mind?"
 					maxLength={200}
 				/>
-				<input type="file" accept="image/*" onChange={onFileChange} />
+				<input
+					type="file"
+					accept="image/*"
+					ref={fileInput}
+					onChange={onFileChange}
+				/>
 				<input type="submit" value="twitt" />
 				{attachment && (
 					<div>
