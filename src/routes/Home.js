@@ -12,8 +12,9 @@ import Twitt from "components/Twitt";
 function Home({ userObj }) {
 	const [twitt, setTwitt] = useState("");
 	const [twitts, setTwitts] = useState([]);
-	const twittFocus = useRef(null);
+	const [attachment, setAttachment] = useState();
 
+	const twittFocus = useRef(null);
 	useEffect(() => {
 		const q = query(
 			collection(dbService, "twitts"),
@@ -58,10 +59,19 @@ function Home({ userObj }) {
 		} = e;
 		const imgFile = files[0];
 		const reader = new FileReader();
-		reader.onloadend = (finishedEvent) => {
-			console.log(finishedEvent);
-		};
-		reader.readAsDataURL(imgFile);
+		if (imgFile) {
+			reader.onloadend = (finishedEvent) => {
+				const {
+					currentTarget: { result },
+				} = finishedEvent;
+				setAttachment(result);
+			};
+			reader.readAsDataURL(imgFile);
+		}
+	};
+
+	const onClearAttachment = () => {
+		setAttachment(null);
 	};
 
 	return (
@@ -77,6 +87,12 @@ function Home({ userObj }) {
 				/>
 				<input type="file" accept="image/*" onChange={onFileChange} />
 				<input type="submit" value="twitt" />
+				{attachment && (
+					<div>
+						<img src={attachment} alt="twittImg" width="100px" />
+						<button onClick={onClearAttachment}>Clear Image</button>
+					</div>
+				)}
 			</form>
 			<div>
 				{twitts.map((twitt) => (
