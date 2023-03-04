@@ -1,12 +1,20 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { dbService } from "fbase";
-import { collection, query, getDocs, where, orderBy } from "firebase/firestore";
+import {
+	collection,
+	query,
+	onSnapshot,
+	where,
+	orderBy,
+} from "firebase/firestore";
+import Twitt from "components/Twitt";
 
 function Profile({ userObj }) {
 	const auth = getAuth();
 	const navigate = useNavigate();
+	const [myTwitts, setMyTwitts] = useState([]);
 
 	const onLogoutClick = () => {
 		signOut(auth)
@@ -23,9 +31,12 @@ function Profile({ userObj }) {
 			where("creatorId", "==", `${userObj.uid}`),
 			orderBy("createdAt", "desc")
 		);
-		const twitts = await getDocs(q);
-		twitts.forEach((doc) => {
-			console.log(doc.id, " => ", doc.data());
+		onSnapshot(q, (snapshot) => {
+			const twittArray = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			setMyTwitts(twittArray);
 		});
 	}, [userObj]);
 
@@ -33,7 +44,20 @@ function Profile({ userObj }) {
 		getMyTwitts();
 	}, [getMyTwitts]);
 
-	return <button onClick={onLogoutClick}>Log Out</button>;
+	return (
+		<div>
+			<div>
+				{myTwitts.map((twitt) => (
+					<Twitt
+						key={twitt.id}
+						twittObj={twitt}
+						isOwner={twitt.creatorId === userObj.uid}
+					/>
+				))}
+			</div>
+			<button onClick={onLogoutClick}>Log Out</button>
+		</div>
+	);
 }
 
 export default Profile;
