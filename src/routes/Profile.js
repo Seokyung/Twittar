@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { dbService } from "fbase";
@@ -17,7 +17,7 @@ function Profile({ userObj }) {
 		navigate("/", { replace: true });
 	};
 
-	const getMyTwitts = async () => {
+	const getMyTwitts = useCallback(async () => {
 		const q = query(
 			collection(dbService, "twitts"),
 			where("creatorId", "==", `${userObj.uid}`),
@@ -27,11 +27,11 @@ function Profile({ userObj }) {
 		twitts.forEach((doc) => {
 			console.log(doc.id, " => ", doc.data());
 		});
-	};
+	}, [userObj]);
 
 	useEffect(() => {
 		getMyTwitts();
-	}, []);
+	}, [getMyTwitts]);
 
 	return <button onClick={onLogoutClick}>Log Out</button>;
 }
