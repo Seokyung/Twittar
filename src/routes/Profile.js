@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { dbService } from "fbase";
 import {
@@ -15,6 +15,7 @@ function Profile({ userObj }) {
 	const auth = getAuth();
 	const navigate = useNavigate();
 	const [myTwitts, setMyTwitts] = useState([]);
+	const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
 	const onLogoutClick = () => {
 		signOut(auth)
@@ -44,8 +45,33 @@ function Profile({ userObj }) {
 		getMyTwitts();
 	}, [getMyTwitts]);
 
+	const onDisplayNameChange = (e) => {
+		const {
+			target: { value },
+		} = e;
+		setNewDisplayName(value);
+	};
+
+	const onUpdateProfileClick = async (e) => {
+		e.preventDefault();
+		if (userObj.displayName !== newDisplayName) {
+			await updateProfile(auth.currentUser, {
+				displayName: newDisplayName,
+			});
+		}
+	};
+
 	return (
 		<div>
+			<form onSubmit={onUpdateProfileClick}>
+				<input
+					type="text"
+					value={newDisplayName}
+					onChange={onDisplayNameChange}
+					placeholder="User Name"
+				/>
+				<input type="submit" value="Update Profile" />
+			</form>
 			<div>
 				{myTwitts.map((twitt) => (
 					<Twitt
@@ -55,7 +81,9 @@ function Profile({ userObj }) {
 					/>
 				))}
 			</div>
-			<button onClick={onLogoutClick}>Log Out</button>
+			<div>
+				<button onClick={onLogoutClick}>Log Out</button>
+			</div>
 		</div>
 	);
 }

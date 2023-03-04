@@ -13,7 +13,7 @@ import Profile from "routes/Profile";
 function AppRouter({ isLoggedIn, userObj }) {
 	return (
 		<Router>
-			{isLoggedIn && <Navigation />}
+			{isLoggedIn && <Navigation userObj={userObj} />}
 			<Routes>
 				{isLoggedIn ? (
 					<>
