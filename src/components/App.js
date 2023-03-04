@@ -10,6 +10,14 @@ function App() {
 		authService.onAuthStateChanged((user) => {
 			if (user) {
 				setUserObj(user);
+				if (authService.currentUser.displayName === null) {
+					authService.currentUser.displayName =
+						authService.currentUser.email.split("@")[0];
+				}
+				if (authService.currentUser.photoURL === null) {
+					authService.currentUser.photoURL =
+						"https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png";
+				}
 			} else {
 				setUserObj(null);
 			}
