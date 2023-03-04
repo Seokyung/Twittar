@@ -61,9 +61,20 @@ function Profile({ userObj }) {
 		}
 	};
 
+	if (userObj.photoURL === null) {
+		userObj.photoURL =
+			"https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png";
+	}
+
 	return (
 		<div>
 			<form onSubmit={onUpdateProfileClick}>
+				<img
+					src={userObj.photoURL}
+					alt="userProfile"
+					width="30px"
+					height="30px"
+				/>
 				<input
 					type="text"
 					value={newDisplayName}
