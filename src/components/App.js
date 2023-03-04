@@ -9,15 +9,24 @@ function App() {
 	useEffect(() => {
 		authService.onAuthStateChanged((user) => {
 			if (user) {
-				setUserObj(user);
-				if (authService.currentUser.displayName === null) {
-					authService.currentUser.displayName =
-						authService.currentUser.email.split("@")[0];
-				}
-				if (authService.currentUser.photoURL === null) {
-					authService.currentUser.photoURL =
-						"https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png";
-				}
+				setUserObj({
+					uid: user.uid,
+					displayName: user.displayName
+						? user.displayName
+						: user.email.split("@")[0],
+					photoURL: user.photoURL
+						? user.photoURL
+						: "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png",
+					updateProfile: (args) => user.updateProfile(args),
+				});
+				// if (authService.currentUser.displayName === null) {
+				// 	authService.currentUser.displayName =
+				// 		authService.currentUser.email.split("@")[0];
+				// }
+				// if (authService.currentUser.photoURL === null) {
+				// 	authService.currentUser.photoURL =
+				// 		"https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png";
+				// }
 			} else {
 				setUserObj(null);
 			}
@@ -25,10 +34,28 @@ function App() {
 		});
 	}, []);
 
+	const refreshUser = () => {
+		const user = authService.currentUser;
+		setUserObj({
+			uid: user.uid,
+			displayName: user.displayName
+				? user.displayName
+				: user.email.split("@")[0],
+			photoURL: user.photoURL
+				? user.photoURL
+				: "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png",
+			updateProfile: (args) => user.updateProfile(args),
+		});
+	};
+
 	return (
 		<>
 			{init ? (
-				<AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} />
+				<AppRouter
+					isLoggedIn={Boolean(userObj)}
+					userObj={userObj}
+					refreshUser={refreshUser}
+				/>
 			) : (
 				"Initializing..."
 			)}

@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { getAuth, signOut, updateProfile } from "firebase/auth";
+import { signOut, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import {
 	collection,
 	query,
@@ -11,14 +11,13 @@ import {
 } from "firebase/firestore";
 import Twitt from "components/Twitt";
 
-function Profile({ userObj }) {
-	const auth = getAuth();
+function Profile({ userObj, refreshUser }) {
 	const navigate = useNavigate();
 	const [myTwitts, setMyTwitts] = useState([]);
 	const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
 	const onLogoutClick = () => {
-		signOut(auth)
+		signOut(authService)
 			.then()
 			.catch((error) => {
 				alert(error.message);
@@ -55,9 +54,10 @@ function Profile({ userObj }) {
 	const onUpdateProfileClick = async (e) => {
 		e.preventDefault();
 		if (userObj.displayName !== newDisplayName) {
-			await updateProfile(auth.currentUser, {
+			await updateProfile(authService.currentUser, {
 				displayName: newDisplayName,
 			});
+			refreshUser();
 		}
 	};
 

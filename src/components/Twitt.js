@@ -69,7 +69,11 @@ function Twitt({ twittObj, isOwner }) {
 				<>
 					<h4>{twittObj.text}</h4>
 					{twittObj.attachmentUrl && (
-						<a href={twittObj.attachmentUrl} target="_blank">
+						<a
+							href={twittObj.attachmentUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
 							<img src={twittObj.attachmentUrl} alt="" width="100px" />
 						</a>
 					)}
