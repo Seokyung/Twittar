@@ -8,18 +8,19 @@ function Navigation({ userObj }) {
 		<nav>
 			<ul className="twittNavUl">
 				<li>
-					<Link to="/">
+					<Link to="/" className="twittNavMenu">
 						<FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x" />
+						<span className="twittNavMenuName">Home</span>
 					</Link>
 				</li>
 				<li>
-					<Link to="/profile" className="twittNavProfile">
+					<Link to="/profile" className="twittNavMenu">
 						<img
 							src={userObj.photoURL}
 							alt="userProfile"
 							className="twittNavProfileImg"
 						/>
-						<span className="twittNavProfileName">
+						<span className="twittNavMenuName">
 							{userObj.displayName}'s Profile
 						</span>
 					</Link>

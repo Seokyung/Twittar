@@ -41,7 +41,7 @@ function AuthForm() {
 	};
 
 	return (
-		<div>
+		<>
 			<form onSubmit={onLoginOrSignInClick} className="container">
 				<input
 					name="email"
@@ -71,7 +71,7 @@ function AuthForm() {
 			<span onClick={toggleAccount} className="authSwitch">
 				{newAccount ? "Log In" : "Create New Account"}
 			</span>
-		</div>
+		</>
 	);
 }
 
