@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { dbService, storageService } from "fbase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 function Twitt({ twittObj, isOwner }) {
 	const [isEdit, setIsEdit] = useState(false);
@@ -45,12 +47,12 @@ function Twitt({ twittObj, isOwner }) {
 	};
 
 	return (
-		<div>
+		<div className="twitt">
 			{isEdit ? (
 				<>
 					{isOwner && (
 						<>
-							<form onSubmit={onEditClick}>
+							<form onSubmit={onEditClick} className="container twittEdit">
 								<input
 									type="text"
 									placeholder="Edit your twitt!"
@@ -58,10 +60,14 @@ function Twitt({ twittObj, isOwner }) {
 									ref={editFocus}
 									value={newTwitt}
 									required
+									autoFocus
+									className="formInput"
 								/>
-								<input type="submit" value="Update twitt" />
+								<input type="submit" value="Update twitt" className="formBtn" />
 							</form>
-							<button onClick={toggleEdit}>Cancel</button>
+							<span onClick={toggleEdit} className="formBtn cancelBtn">
+								Cancel
+							</span>
 						</>
 					)}
 				</>
@@ -74,14 +80,18 @@ function Twitt({ twittObj, isOwner }) {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<img src={twittObj.attachmentUrl} alt="" width="100px" />
+							<img src={twittObj.attachmentUrl} alt="attachment" />
 						</a>
 					)}
 					{isOwner && (
-						<>
-							<button onClick={toggleEdit}>Edit twitt</button>
-							<button onClick={onDeleteClick}>Delete twitt</button>
-						</>
+						<div className="twitt__actions">
+							<span onClick={toggleEdit}>
+								<FontAwesomeIcon icon={faPencilAlt} />
+							</span>
+							<span onClick={onDeleteClick}>
+								<FontAwesomeIcon icon={faTrash} />
+							</span>
+						</div>
 					)}
 				</>
 			)}

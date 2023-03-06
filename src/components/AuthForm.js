@@ -9,6 +9,7 @@ function AuthForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [newAccount, setNewAccount] = useState(false);
+	const [error, setError] = useState("");
 
 	const onEmailOrPasswordChange = (e) => {
 		const {
@@ -31,8 +32,7 @@ function AuthForm() {
 				await signInWithEmailAndPassword(auth, email, password);
 			}
 		} catch (error) {
-			alert(error.message);
-			console.log(error);
+			setError(error.message);
 		}
 	};
 
@@ -42,7 +42,7 @@ function AuthForm() {
 
 	return (
 		<div>
-			<form onSubmit={onLoginOrSignInClick}>
+			<form onSubmit={onLoginOrSignInClick} className="container">
 				<input
 					name="email"
 					type="email"
@@ -50,6 +50,7 @@ function AuthForm() {
 					required
 					value={email}
 					onChange={onEmailOrPasswordChange}
+					className="authInput"
 				/>
 				<input
 					name="password"
@@ -58,15 +59,18 @@ function AuthForm() {
 					required
 					value={password}
 					onChange={onEmailOrPasswordChange}
+					className="authInput"
 				/>
 				<input
 					type="submit"
 					value={newAccount ? "Create New Account" : "Log In"}
+					className="authInput authSubmit"
 				/>
+				{error && <span className="authError">{error}</span>}
 			</form>
-			<button onClick={toggleAccount}>
+			<span onClick={toggleAccount} className="authSwitch">
 				{newAccount ? "Log In" : "Create New Account"}
-			</button>
+			</span>
 		</div>
 	);
 }

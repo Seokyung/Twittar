@@ -14,23 +14,27 @@ function AppRouter({ isLoggedIn, userObj, refreshUser }) {
 	return (
 		<Router>
 			{isLoggedIn && <Navigation userObj={userObj} />}
-			<Routes>
-				{isLoggedIn ? (
-					<>
-						<Route path="/" element={<Home userObj={userObj} />} />
-						<Route
-							path="/profile"
-							element={<Profile userObj={userObj} refreshUser={refreshUser} />}
-						/>
-						<Route path="*" element={<Navigate to="/" />} />
-					</>
-				) : (
-					<>
-						<Route path="/" element={<Auth />} />
-						<Route path="*" element={<Navigate to="/" />} />
-					</>
-				)}
-			</Routes>
+			<div className="routeContainer">
+				<Routes>
+					{isLoggedIn ? (
+						<>
+							<Route path="/" element={<Home userObj={userObj} />} />
+							<Route
+								path="/profile"
+								element={
+									<Profile userObj={userObj} refreshUser={refreshUser} />
+								}
+							/>
+							<Route path="*" element={<Navigate to="/" />} />
+						</>
+					) : (
+						<>
+							<Route path="/" element={<Auth />} />
+							<Route path="*" element={<Navigate to="/" />} />
+						</>
+					)}
+				</Routes>
+			</div>
 		</Router>
 	);
 }

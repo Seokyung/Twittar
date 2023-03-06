@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "fbase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function InputTwitt({ userObj }) {
 	const [twitt, setTwitt] = useState("");
@@ -10,6 +12,9 @@ function InputTwitt({ userObj }) {
 	const fileInput = useRef(null);
 
 	const onTwittClick = async (e) => {
+		if (twitt === "" && attachment === "") {
+			return;
+		}
 		e.preventDefault();
 		let attachmentUrl = "";
 		if (attachment !== "") {
@@ -67,25 +72,37 @@ function InputTwitt({ userObj }) {
 	};
 
 	return (
-		<form onSubmit={onTwittClick}>
+		<form onSubmit={onTwittClick} className="inputForm">
+			<div className="twittInput__container">
+				<input
+					value={twitt}
+					onChange={onTwittChange}
+					type="text"
+					placeholder="What's on your mind?"
+					maxLength={200}
+					className="twittInput__input"
+				/>
+				<input type="submit" value="twitt" className="twittInput__arrow" />
+			</div>
+			<label htmlFor="attach-file" className="twittInput__label">
+				<span>Add photos</span>
+				<FontAwesomeIcon icon={faPlus} />
+			</label>
 			<input
-				value={twitt}
-				onChange={onTwittChange}
-				type="text"
-				placeholder="What's on your mind?"
-				maxLength={200}
-			/>
-			<input
+				id="attach-file"
 				type="file"
 				accept="image/*"
 				ref={fileInput}
 				onChange={onFileChange}
+				className="twittInputForm__attachmentInput"
 			/>
-			<input type="submit" value="twitt" />
 			{attachment && (
-				<div>
-					<img src={attachment} alt="twittImg" width="100px" />
-					<button onClick={onClearAttachment}>Clear Image</button>
+				<div className="twittInputForm__attachment">
+					<img src={attachment} alt="twittImg" />
+					<div className="twittInputForm__clear" onClick={onClearAttachment}>
+						<span>Remove</span>
+						<FontAwesomeIcon icon={faTimes} />
+					</div>
 				</div>
 			)}
 		</form>

@@ -42,15 +42,17 @@ function App() {
 
 	return (
 		<>
-			{init ? (
-				<AppRouter
-					isLoggedIn={Boolean(userObj)}
-					userObj={userObj}
-					refreshUser={refreshUser}
-				/>
-			) : (
-				"Initializing..."
-			)}
+			<div className="appContainer">
+				{init ? (
+					<AppRouter
+						isLoggedIn={Boolean(userObj)}
+						userObj={userObj}
+						refreshUser={refreshUser}
+					/>
+				) : (
+					"Initializing..."
+				)}
+			</div>
 			<footer>&copy; {new Date().getFullYear()} twittar</footer>
 		</>
 	);

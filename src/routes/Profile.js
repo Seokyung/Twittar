@@ -62,21 +62,28 @@ function Profile({ userObj, refreshUser }) {
 	};
 
 	return (
-		<div>
-			<form onSubmit={onUpdateProfileClick}>
-				<img
-					src={userObj.photoURL}
-					alt="userProfile"
-					width="30px"
-					height="30px"
-				/>
-				<input
-					type="text"
-					value={newDisplayName}
-					onChange={onDisplayNameChange}
-					placeholder="User Name"
-				/>
-				<input type="submit" value="Update Profile" />
+		<div className="container">
+			<form onSubmit={onUpdateProfileClick} className="profileForm">
+				<div className="profileContainer">
+					<img
+						src={userObj.photoURL}
+						alt="userProfile"
+						width="30px"
+						height="30px"
+						className="profileImg"
+					/>
+					<input
+						type="text"
+						value={newDisplayName}
+						onChange={onDisplayNameChange}
+						placeholder="User Name"
+						className="profileInput"
+					/>
+				</div>
+				<input type="submit" value="Update Profile" className="formBtn" />
+				<span onClick={onLogoutClick} className="formBtn cancelBtn">
+					Log Out
+				</span>
 			</form>
 			<div>
 				{myTwitts.map((twitt) => (
@@ -86,9 +93,6 @@ function Profile({ userObj, refreshUser }) {
 						isOwner={twitt.creatorId === userObj.uid}
 					/>
 				))}
-			</div>
-			<div>
-				<button onClick={onLogoutClick}>Log Out</button>
 			</div>
 		</div>
 	);

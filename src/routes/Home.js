@@ -22,9 +22,9 @@ function Home({ userObj }) {
 	}, []);
 
 	return (
-		<div>
+		<div className="container">
 			<InputTwitt userObj={userObj} />
-			<div>
+			<div className="twittsContainer">
 				{twitts.map((twitt) => (
 					<Twitt
 						key={twitt.id}
