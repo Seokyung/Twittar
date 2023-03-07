@@ -92,10 +92,8 @@ footer {
 /* App Router */
 
 .routeContainer {
-	max-width: 890px;
 	width: 100%;
-	margin: 0 auto;
-	margin-top: 80;
+	margin: 0;
 	display: flex;
 	justify-content: center;
 }
