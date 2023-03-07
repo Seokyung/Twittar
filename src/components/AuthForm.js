@@ -42,7 +42,13 @@ function AuthForm() {
 
 	return (
 		<>
-			<form onSubmit={onLoginOrSignInClick} className="container">
+			<form
+				onSubmit={onLoginOrSignInClick}
+				className="container"
+				style={{
+					alignItems: "center",
+				}}
+			>
 				<input
 					name="email"
 					type="email"
