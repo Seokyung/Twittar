@@ -12,10 +12,10 @@ function InputTwitt({ userObj }) {
 	const fileInput = useRef(null);
 
 	const onTwittClick = async (e) => {
+		e.preventDefault();
 		if (twitt === "" && attachment === "") {
 			return;
 		}
-		e.preventDefault();
 		let attachmentUrl = "";
 		if (attachment !== "") {
 			const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
