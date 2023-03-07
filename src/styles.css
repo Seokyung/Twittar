@@ -75,7 +75,8 @@ form {
 /* App */
 
 .appContainer {
-	min-height: 100vh;
+	min-height: 90vh;
+	height: 90vh;
 }
 
 footer {
@@ -307,8 +308,9 @@ footer {
 .authContainer {
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
-	justify-content: center;
+	margin-top: 50px;
+	min-height: 90vh;
+	height: 90vh;
 	align-items: center;
 }
 
