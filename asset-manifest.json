@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/twittar/static/css/main.04f7885e.css",
+    "main.js": "/twittar/static/js/main.2a7fae1e.js",
+    "index.html": "/twittar/index.html",
+    "main.04f7885e.css.map": "/twittar/static/css/main.04f7885e.css.map",
+    "main.2a7fae1e.js.map": "/twittar/static/js/main.2a7fae1e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.04f7885e.css",
+    "static/js/main.2a7fae1e.js"
+  ]
+}
