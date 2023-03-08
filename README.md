@@ -2,11 +2,11 @@
 
 Cloning Twitter with Nomad Coders Nico's ReactJS lecture.<br/>
 
-## 사용 기술
+## Used Technology Stacks
 
 Front: ReactJS<br/>
 Back: Google Firebase<br/>
-Deploy: gh-pages<br/>
+Deploy: github-pages<br/>
 
 ## twittar url
 
