@@ -22,7 +22,7 @@ function Profile({ userObj, refreshUser }) {
 			.catch((error) => {
 				alert(error.message);
 			});
-		navigate("/", { replace: true });
+		navigate(`${process.env.PUBLIC_URL}/`, { replace: true });
 	};
 
 	const getMyTwitts = useCallback(async () => {

@@ -8,13 +8,16 @@ function Navigation({ userObj }) {
 		<nav>
 			<ul className="twittNavUl">
 				<li>
-					<Link to="/" className="twittNavMenu">
+					<Link to={`${process.env.PUBLIC_URL}/`} className="twittNavMenu">
 						<FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x" />
 						<span className="twittNavMenuName">Home</span>
 					</Link>
 				</li>
 				<li>
-					<Link to="/profile" className="twittNavMenu">
+					<Link
+						to={`${process.env.PUBLIC_URL}/profile`}
+						className="twittNavMenu"
+					>
 						<img
 							src={userObj.photoURL}
 							alt="userProfile"

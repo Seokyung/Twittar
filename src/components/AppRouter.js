@@ -18,20 +18,34 @@ function AppRouter({ isLoggedIn, userObj, refreshUser }) {
 				<Routes>
 					{isLoggedIn ? (
 						<>
-							<Route exact path="/" element={<Home userObj={userObj} />} />
 							<Route
 								exact
-								path="/profile"
+								path={process.env.PUBLIC_URL + "/"}
+								element={<Home userObj={userObj} />}
+							/>
+							<Route
+								exact
+								path={process.env.PUBLIC_URL + "/profile"}
 								element={
 									<Profile userObj={userObj} refreshUser={refreshUser} />
 								}
 							/>
-							<Route path="*" element={<Navigate to="/" />} />
+							<Route
+								path="*"
+								element={<Navigate to={`${process.env.PUBLIC_URL}/`} />}
+							/>
 						</>
 					) : (
 						<>
-							<Route exact path="/" element={<Auth />} />
-							<Route path="*" element={<Navigate to="/" />} />
+							<Route
+								exact
+								path={process.env.PUBLIC_URL + "/"}
+								element={<Auth />}
+							/>
+							<Route
+								path="*"
+								element={<Navigate to={`${process.env.PUBLIC_URL}/`} />}
+							/>
 						</>
 					)}
 				</Routes>
