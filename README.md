@@ -2,7 +2,7 @@
 
 Cloning Twitter with Nomad Coders Nico's ReactJS lecture.<br/>
 
-## Used Technology Stacks
+## Technology Stack Used
 
 Front: ReactJS<br/>
 Back: Google Firebase<br/>
