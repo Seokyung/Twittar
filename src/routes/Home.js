@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import Twitt from "components/Twitt";
 import InputTwitt from "components/InputTwitt";
@@ -12,12 +13,17 @@ function Home({ userObj }) {
 			collection(dbService, "twitts"),
 			orderBy("createdAt", "desc")
 		);
-		onSnapshot(q, (snapshot) => {
+		const unsubscribe = onSnapshot(q, (snapshot) => {
 			const twittArray = snapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
 			}));
 			setTwitts(twittArray);
+		});
+		onAuthStateChanged(authService, (user) => {
+			if (user === null) {
+				unsubscribe();
+			}
 		});
 	}, []);
 
