@@ -8,7 +8,6 @@ Front: ReactJS<br/>
 Back: Google Firebase<br/>
 Deploy: gh-pages<br/>
 
-## url
+## twittar url
 
-[twittar] (https://seokyung.github.io/twittar/)<br/>
-https://seokyung.github.io/twittar/
+Click here to look around 👉 https://seokyung.github.io/twittar/
