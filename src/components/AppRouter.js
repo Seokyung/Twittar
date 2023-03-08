@@ -18,8 +18,9 @@ function AppRouter({ isLoggedIn, userObj, refreshUser }) {
 				<Routes>
 					{isLoggedIn ? (
 						<>
-							<Route path="/" element={<Home userObj={userObj} />} />
+							<Route exact path="/" element={<Home userObj={userObj} />} />
 							<Route
+								exact
 								path="/profile"
 								element={
 									<Profile userObj={userObj} refreshUser={refreshUser} />
@@ -29,7 +30,7 @@ function AppRouter({ isLoggedIn, userObj, refreshUser }) {
 						</>
 					) : (
 						<>
-							<Route path="/" element={<Auth />} />
+							<Route exact path="/" element={<Auth />} />
 							<Route path="*" element={<Navigate to="/" />} />
 						</>
 					)}
